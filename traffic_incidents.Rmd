@@ -15,10 +15,10 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(lubridate)
-last_update <- Sys.time()
+# last_update <- Sys.time()
 ```
 
-#### Information is updated every 15 minutes. Last updated at `r lubridate::ymd_hms(last_update, tz = 'Canada/Mountain')`.
+#### Information is updated every 15 minutes. Last updated at `r now()`.
 
 
 
