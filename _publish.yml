@@ -1,0 +1,4 @@
+- source: traffic_incidents.Rmd
+  netlify:
+    - id: 354515a0-8d55-455a-b2d6-f01f8cd40b84
+      url: 'https://soft-lily-e922a3.netlify.app'
