@@ -18,7 +18,7 @@ library(lubridate)
 # last_update <- Sys.time()
 ```
 
-#### Information is updated every 15 minutes. Last updated at `r now()`.
+#### Information is updated every 15 minutes. Last updated at `r now(tzone = "Canada/Mountain")`.
 
 
 
