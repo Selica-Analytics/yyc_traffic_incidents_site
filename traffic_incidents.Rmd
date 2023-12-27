@@ -1,5 +1,8 @@
 ---
-output: html_document
+output: 
+    html_document:
+        includes:
+            after_body: footer.html
 ---
 ```{r setOptions, echo=FALSE}
 knitr::opts_chunk$set(
@@ -12,6 +15,7 @@ knitr::opts_chunk$set(
 
 ## New Traffic Incidents in the Last 90 Minutes
 
+<br><br>
 
 ```{r}
 library(lubridate)
@@ -20,12 +24,11 @@ library(lubridate)
 
 #### Information is updated every 15 minutes. Last updated at `r now(tzone = "Canada/Mountain")`.
 
-
+<br><br>
 
 License: Contains information licensed under the Open Government Licence – City of Calgary.
 
-
-
+<br><br>
 
 ```{r}
 library(httr2)
@@ -64,14 +67,19 @@ icons <- awesomeIconList(
   walk = makeAwesomeIcon(text = fa("car-burst"), iconColor = "black", markerColor = "red")
 )
 
-leaflet(traffic_incidents) |>
+
+```
+
+```{r}
+map <- leaflet(traffic_incidents) |>
  addTiles() |>
     addAwesomeMarkers(~longitude, ~latitude, popup = ~content,icon=icons)
 ```
 
-
-
-```{r createMap}
-#targets::tar_read(plot_traffic_incidents)
+<center>
+```{r}
+map
 ```
+</center>
 
+<br><br>
