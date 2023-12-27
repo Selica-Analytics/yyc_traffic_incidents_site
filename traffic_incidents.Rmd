@@ -11,6 +11,8 @@ knitr::opts_chunk$set(
 ```
 
 ## New Traffic Incidents in the Last 90 Minutes
+
+
 ```{r}
 library(lubridate)
 last_update <- Sys.time()
@@ -18,7 +20,11 @@ last_update <- Sys.time()
 
 #### Information is updated every 15 minutes. Last updated at `r lubridate::ymd_hms(last_update, tz = 'Canada/Mountain')`.
 
+
+
 License: Contains information licensed under the Open Government Licence – City of Calgary.
+
+
 
 
 ```{r}
