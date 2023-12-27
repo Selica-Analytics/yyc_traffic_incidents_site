@@ -3,6 +3,7 @@ output:
     html_document:
         includes:
             after_body: footer.html
+        theme: paper
 ---
 ```{r setOptions, echo=FALSE}
 knitr::opts_chunk$set(
@@ -22,13 +23,15 @@ library(lubridate)
 # last_update <- Sys.time()
 ```
 
-#### Information is updated every 15 minutes. Last updated at `r now(tzone = "Canada/Mountain")`.
+#### Information is updated every 15 minutes. 
 
 <br><br>
 
-License: Contains information licensed under the Open Government Licence – City of Calgary.
+**Last updated at `r now(tzone = "Canada/Mountain")`.**
 
 <br><br>
+
+
 
 ```{r}
 library(httr2)
@@ -70,16 +73,16 @@ icons <- awesomeIconList(
 
 ```
 
-```{r}
-map <- leaflet(traffic_incidents) |>
+
+<center>
+
+```{r, fig.align="center", fig.width=10, fig.cap="License: Contains information licensed under the Open Government Licence – City of Calgary."}
+leaflet(traffic_incidents) |>
  addTiles() |>
     addAwesomeMarkers(~longitude, ~latitude, popup = ~content,icon=icons)
 ```
 
-<center>
-```{r}
-map
-```
+
 </center>
 
 <br><br>
