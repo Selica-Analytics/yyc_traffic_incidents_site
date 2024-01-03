@@ -21,7 +21,7 @@ The below map shows the accidents that have been reported in the last 90 minutes
 ```{r}
 library(lubridate)
 last_update <- Sys.time()
-
+last_update <- format(last_update, tz = "Canada/Mountain", usetz = TRUE)
 ```
 
 #### Information is updated every 15 minutes. 
