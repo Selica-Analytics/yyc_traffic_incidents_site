@@ -1,7 +1,15 @@
 ---
-output: 
-    html_document:
-        theme: paper
+output:
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
+# output: 
+#   rmdformats::downcute:
+#     self_contained: true
+#     thumbnails: true
+#     lightbox: true
+#     gallery: false
+#     highlight: tango
 ---
 ```{r setOptions, echo=FALSE}
 knitr::opts_chunk$set(
@@ -12,9 +20,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+```{r}
+library(rmdformats)
+```
+
+
+
 ## Traffic Incidents in the Last 90 Minutes
 
-<br><br>
+<br>
 
 The below map shows the accidents that have been reported in the last 90 minutes. Depending on the severity of the incident, it is possible that the situation has been resolved by the time you travel to the area.
 
@@ -26,7 +41,7 @@ last_update <- format(last_update, tz = "Canada/Mountain", usetz = TRUE)
 
 #### Information is updated every 15 minutes. 
 
-<br><br>
+<br>
 
 **Last updated at `r last_update`.**
 
@@ -90,9 +105,8 @@ leaflet(traffic_incidents) |>
 
 
 
-<br><br>
+<br>
 
-&nbsp;
 <hr />
 <p style="text-align: center;">Created by <a href="https://selica.ca">Selica Analytics</a></p>
 
