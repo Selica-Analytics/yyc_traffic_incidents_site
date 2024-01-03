@@ -1,8 +1,8 @@
 ---
-output:
-  prettydoc::html_pretty:
-    theme: tactile
-    highlight: github
+# output:
+#   prettydoc::html_pretty:
+#     theme: tactile
+#     highlight: github
 # output: 
 #   rmdformats::downcute:
 #     self_contained: true
@@ -121,6 +121,10 @@ leaflet(traffic_incidents) |>
 &nbsp;
 
 <style>
+
+body { background-color: #e0e0db; }
+    pre, pre:not([class]) { background-color: red; }
+
 #main .nav-pills > li.active > a,
 #main .nav-pills > li.active > a:hover,
 #main .nav-pills > li.active > a:focus {
