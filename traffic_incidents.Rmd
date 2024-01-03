@@ -12,26 +12,30 @@ knitr::opts_chunk$set(
 )
 ```
 
-## New Traffic Incidents in the Last 90 Minutes
+## Traffic Incidents in the Last 90 Minutes
 
 <br><br>
 
+The below map shows the accidents that have been reported in the last 90 minutes. Depending on the severity of the incident, it is possible that the situation has been resolved by the time you travel to the area.
+
 ```{r}
 library(lubridate)
-# last_update <- Sys.time()
+last_update <- Sys.time()
+
 ```
 
 #### Information is updated every 15 minutes. 
 
 <br><br>
 
-**Last updated at `r now(tzone = "Canada/Mountain")`.**
+**Last updated at `r last_update`.**
 
 <br><br>
 
 
 
 ```{r}
+# `r now(tzone = "Canada/Mountain")`.**
 library(httr2)
 library(leaflet)
 library(dplyr)
