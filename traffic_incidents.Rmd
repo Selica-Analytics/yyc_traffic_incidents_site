@@ -3,6 +3,7 @@ output:
   prettydoc::html_pretty:
     theme: tactile
     highlight: github
+urlcolor: blue
 # output: 
 #   rmdformats::downcute:
 #     self_contained: true
