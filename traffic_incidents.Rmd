@@ -11,6 +11,15 @@
 #     gallery: false
 #     highlight: tango
 ---
+
+<style type = "text/css">
+.main-container {
+  max-width: 1800px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
 ```{r setOptions, echo=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE, 
@@ -172,7 +181,7 @@ icons <- awesomeIconList(
 ```
 
 
-```{r, fig.align="center", fig.width=10, fig.height = 6,fig.cap="License: Contains information licensed under the Open Government Licence – City of Calgary."}
+```{r, fig.align="center", fig.width=18, fig.height = 9,fig.cap="License: Contains information licensed under the Open Government Licence – City of Calgary."}
 leaflet() |>
  addTiles() |>
     addAwesomeMarkers(
