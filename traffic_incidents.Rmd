@@ -22,7 +22,9 @@ knitr::opts_chunk$set(
 
 
 ```{r}
-# library(prettydoc)
+library(tidyr)
+library(lubridate)
+library(stringr)
 ```
 
 
@@ -40,7 +42,6 @@ Construction detours are identified by the orange markers with the hard hat icon
 <br>
 
 ```{r}
-library(lubridate)
 last_update <- Sys.time()
 last_update <- format(last_update, tz = "Canada/Mountain", usetz = TRUE)
 ```
@@ -78,6 +79,11 @@ httr2::req_perform(
         path = "00_data/yyc_construction_detours.csv"
         )
 
+httr2::req_perform(
+        request("https://data.calgary.ca/resource/k7p9-kppz.csv?$limit=10000000"),
+        path = "00_data/yyc_traffic_cams.csv"
+        )
+
 file_path <- "00_data/yyc_construction_detours.csv"
 
 raw_construction_detours <- readr::read_csv(file_path)
@@ -86,7 +92,11 @@ file_path <- "00_data/yyc_traffic_incidents.csv"
 
 raw_traffic_incidents <- readr::read_csv(file_path)
 
-#Data processing
+traffic_cams_raw <- readr::read_csv("00_data/yyc_traffic_cams.csv")
+
+# Data processing ----
+
+# Traffic incidents ----
 traffic_incidents <- raw_traffic_incidents |>
     janitor::clean_names() |>
     mutate(
@@ -97,6 +107,7 @@ traffic_incidents <- raw_traffic_incidents |>
         ) |>
     filter(start_dt >= beginning_time)
 
+# Construction detours ----
 construction_detours <- raw_construction_detours |>
     mutate(
     start_dt = ymd_hms(start_dt,tz = "Canada/Mountain"),
@@ -105,13 +116,33 @@ construction_detours <- raw_construction_detours |>
     type = "detour"
         ) 
 
-combined_data <- bind_rows(traffic_incidents,construction_detours)
+# Traffic cams ----
+traffic_cams <- traffic_cams_raw |>
+    mutate(
+    last_updated = ymd_hms(Sys.time(),tz = "Canada/Mountain"),
+    url = stringr::str_extract(camera_url,"(?<=\\()(.*?)(?=\\))"),
+    type = "traffic_cam"
+        ) |> 
+    mutate(
+        xy = stringr::str_extract(point,"(?<=\\()(.*?)(?=\\))")
+    ) |> 
+    tidyr::separate_wider_delim(xy, names = c("longitude", "latitude"), delim = " ") |> 
+    select(-camera_url,-point) |> 
+    mutate(
+        longitude = as.numeric(longitude),
+        latitude = as.numeric(latitude),
+        content = paste0("<img src = ", url, " />")
+        # <a href="https://www.r-project.org/">R Project</a>'
+    )
+
+combined_data <- bind_rows(traffic_incidents,construction_detours,traffic_cams)
 
 # glimpse(traffic_incidents)
 
 icons <- awesomeIconList(
   incident = makeAwesomeIcon(text = fa("car-burst"), iconColor = "black", markerColor = "red"),
-  detour = makeAwesomeIcon(text = fa("helmet-safety"), iconColor = "black", markerColor = "orange")
+  detour = makeAwesomeIcon(text = fa("helmet-safety"), iconColor = "black", markerColor = "orange"),
+  traffic_cam = makeAwesomeIcon(text = fa("video"), iconColor = "black", markerColor = "blue")
 )
 
 
@@ -127,7 +158,6 @@ leaflet(combined_data) |>
         ~longitude, 
         ~latitude, 
         popup = ~content,
-        # icon=icons
         icon = icons[combined_data$type]
         )
 ```
