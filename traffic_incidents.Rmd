@@ -1,4 +1,5 @@
 ---
+title: ""
 # output:
 #   prettydoc::html_pretty:
 #     theme: tactile
@@ -48,7 +49,7 @@ Traffic incidents are identified by the red marker, with the car crash icon in t
 
 Construction detours are identified by the orange markers with the hard hat icon.
 
-Traffic cameras are identified by the blue markers with the video camera icon. You can toggle the camera markers on and off by clicking the layers icon in the top right corner of the map. Clicking on the traffic camera marker will allow you to navigate to the live traffic images **(this feature currently doesn't work)**.
+Traffic cameras are identified by the blue markers with the video camera icon. You can toggle the camera markers on and off by clicking the layers icon in the top right corner of the map. Clicking on the traffic camera marker will allow you to navigate to the live traffic images.
 
 **Note that the traffic cameras are not enforcement cameras.**
 
@@ -144,7 +145,8 @@ traffic_cams <- traffic_cams_raw |>
     mutate(
         longitude = as.numeric(longitude),
         latitude = as.numeric(latitude),
-        content = paste0("<img src = ", url, " />")
+        # content = paste0("<img src = ", url, " />")
+        # content = paste0("a href = ", url, " >", url, "Traffic Cam Live </a>")
         # <a href="https://www.r-project.org/">R Project</a>'
     )
 
@@ -181,7 +183,7 @@ icons <- awesomeIconList(
 ```
 
 
-```{r, fig.align="center", fig.width=18, fig.height = 9,fig.cap="License: Contains information licensed under the Open Government Licence – City of Calgary."}
+```{r, fig.align="center", out.width='100%', fig.height= 8,fig.fullwidth = TRUE,fig.fullheight = TRUE, fig.cap="License: Contains information licensed under the Open Government Licence – City of Calgary."}
 leaflet() |>
  addTiles() |>
     addAwesomeMarkers(
@@ -189,28 +191,29 @@ leaflet() |>
         traffic_incidents$latitude, 
         popup = traffic_incidents$content,
         icon = icons[traffic_incidents$type],
-        group = "incidents"
+        group = "Traffic Incidents"
         ) |> 
     addAwesomeMarkers(
         construction_detours$longitude, 
         construction_detours$latitude, 
         popup = construction_detours$content,
         icon = icons[construction_detours$type],
-        group = "detour"
+        group = "Construction Detours"
         ) |>
     addAwesomeMarkers(
         traffic_cams$longitude, 
         traffic_cams$latitude, 
-        popup = traffic_cams$content,
+        popup = paste0("<a href = ", traffic_cams$url, " target = _blank>",  "Live Traffic Cam</a>"),
         icon = icons[traffic_cams$type],
         group = "Traffic Cams"
         ) |>
     addLayersControl(
-    baseGroups = c("Traffic Cams","Turn off Traffic Cams"),
-    position = "topright"
+        overlayGroups = c("Traffic Cams", "Traffic Incidents", "Construction Detours"),
+        options = layersControlOptions(collapsed = FALSE),
+        position = "topright"
   )
 ```
-```
+
 
 
 </center>
