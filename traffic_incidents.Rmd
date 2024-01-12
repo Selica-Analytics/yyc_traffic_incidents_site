@@ -79,7 +79,7 @@ library(lubridate)
 library(janitor)
 library(fontawesome)
 
-time_frame_min <- 720
+time_frame_min <- 90
 current_date_time <- Sys.time()
 beginning_time <- current_date_time - lubridate::minutes(time_frame_min)
 
